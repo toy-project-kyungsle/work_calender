@@ -1,6 +1,36 @@
-import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/calendar";
+import { createJournalEntry } from "@/lib/parser";
+import fs from "fs";
+import path from "path";
+import type { JournalEntry } from "@/types/journal";
 
-export default function Home() {
+async function getJournals(): Promise<JournalEntry[]> {
+  const dataDir = path.join(process.cwd(), "data");
+
+  try {
+    const files = fs.readdirSync(dataDir);
+    const mdFiles = files.filter((file) => file.endsWith(".md"));
+
+    const journals: JournalEntry[] = [];
+    for (const fileName of mdFiles) {
+      const filePath = path.join(dataDir, fileName);
+      const content = fs.readFileSync(filePath, "utf-8");
+      const journal = createJournalEntry(fileName, content);
+      if (journal) {
+        journals.push(journal);
+      }
+    }
+
+    return journals;
+  } catch (error) {
+    console.error("Failed to load journals:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const journals = await getJournals();
+
   return (
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8">
@@ -11,18 +41,7 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="flex justify-center gap-4">
-          <Button variant="outline">이전 달</Button>
-          <Button variant="default">2025년 1월</Button>
-          <Button variant="outline">다음 달</Button>
-        </div>
-
-        {/* 캘린더 컴포넌트가 여기에 들어갈 예정 */}
-        <div className="mt-8 rounded-lg border border-border p-4">
-          <p className="text-center text-muted-foreground">
-            캘린더 컴포넌트 준비 중...
-          </p>
-        </div>
+        <Calendar journals={journals} />
       </main>
     </div>
   );

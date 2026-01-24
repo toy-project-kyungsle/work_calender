@@ -7,11 +7,11 @@ Obsidian 바인드 일지를 시각화하는 월별 캘린더 웹 애플리케�
 
 ## Milestones Overview
 ```
-Progress: [████░░░░░░░░░░░░░░░░] 22%
+Progress: [██████░░░░░░░░░░░░░░] 33%
 
 M0: ████████████████████ 100% ✅ 프로젝트 초기 설정
 M1: ████████████████████ 100% ✅ 데이터 구조 및 파싱
-M2: ░░░░░░░░░░░░░░░░░░░░   0% ⬜ 캘린더 기본 UI
+M2: ████████████████████ 100% ✅ 캘린더 기본 UI
 M3: ░░░░░░░░░░░░░░░░░░░░   0% ⬜ 월별 테마 시스템
 M4: ░░░░░░░░░░░░░░░░░░░░   0% ⬜ 월 네비게이션
 M5: ░░░░░░░░░░░░░░░░░░░░   0% ⬜ 일지 상세 보기
@@ -95,18 +95,18 @@ interface JournalEntry {
 ---
 
 ### M2: 캘린더 기본 UI
-**Status**: Pending
+**Status**: ✅ Completed
 **Duration**: 2-3시간
 **Dependencies**: M0
 
 **Sub-tasks**:
-- [ ] 2.1 - 디자인 레퍼런스 분석 (월별 테마, 레이아웃 구조)
-- [ ] 2.2 - Calendar 컴포넌트 기본 구조 (CSS Grid 7열)
-- [ ] 2.3 - MonthHeader 컴포넌트 (월 이름, 연도)
-- [ ] 2.4 - WeekdayHeader 컴포넌트 (일~토)
-- [ ] 2.5 - DayCell 컴포넌트 (날짜 번호 표시)
-- [ ] 2.6 - 날짜 계산 유틸리티 (해당 월 날짜 배열, 시작 요일)
-- [ ] 2.7 - React Bits 컴포넌트 활용 검토 (선택)
+- [x] 2.1 - 디자인 레퍼런스 분석 (월별 테마, 레이아웃 구조)
+- [x] 2.2 - Calendar 컴포넌트 기본 구조 (CSS Grid 7열)
+- [x] 2.3 - MonthHeader 컴포넌트 (월 이름, 연도)
+- [x] 2.4 - WeekdayHeader 컴포넌트 (일~토)
+- [x] 2.5 - DayCell 컴포넌트 (날짜 번호 표시)
+- [x] 2.6 - 날짜 계산 유틸리티 (해당 월 날짜 배열, 시작 요일)
+- [ ] 2.7 - React Bits 컴포넌트 활용 검토 (선택) - 생략
 
 **완료 기준**:
 - 캘린더 그리드 렌더링
@@ -337,4 +337,9 @@ work_calender/
   - parseFileName, parseJournalContent, hasAfterSixContent 구현
   - Vitest 테스트 환경 설정
   - 6개 테스트 통과
-- 다음: M2 (캘린더 기본 UI)
+- ✅ M2 완료: 캘린더 기본 UI
+  - Calendar, DayCell, MonthHeader, WeekdayHeader 컴포넌트
+  - dateUtils 유틸리티 (6개 테스트 통과)
+  - 서버 컴포넌트에서 일지 파일 로드
+  - 빌드 성공
+- 다음: M3 (월별 테마 시스템)
