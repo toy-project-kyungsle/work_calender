@@ -11,7 +11,7 @@ const bodyFont = Noto_Sans_KR({
 const displayFont = Barlow_Condensed({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "900"],
 });
 
 const monoFont = Geist_Mono({
