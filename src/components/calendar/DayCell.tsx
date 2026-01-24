@@ -7,6 +7,7 @@ interface DayCellProps {
   hasJournal?: boolean;
   hasAfterSixContent?: boolean;
   summary?: string;
+  accentColor?: string;
   onClick?: () => void;
 }
 
@@ -17,6 +18,7 @@ export function DayCell({
   hasJournal,
   hasAfterSixContent,
   summary,
+  accentColor,
   onClick,
 }: DayCellProps) {
   const dayOfWeek = date.getDay();
@@ -33,8 +35,9 @@ export function DayCell({
         isCurrentMonth ? "bg-background" : "bg-muted/30",
         !hasJournal && "cursor-default opacity-60",
         hasJournal && "cursor-pointer hover:bg-accent/50",
-        isToday && "ring-2 ring-primary"
+        isToday && "ring-2"
       )}
+      style={isToday ? { boxShadow: `0 0 0 2px ${accentColor}` } : undefined}
     >
       {/* 날짜 번호 */}
       <div className="flex items-center justify-between mb-1">
