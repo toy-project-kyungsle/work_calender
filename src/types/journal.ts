@@ -8,6 +8,7 @@ export interface JournalEntry {
   retrospective: string;
   hasAfterSixContent: boolean;
   rawContent: string;
+  summary?: string; // 캘린더에 표시할 요약
 }
 
 // 서버 → 클라이언트 직렬화용
@@ -21,6 +22,7 @@ export interface SerializedJournalEntry {
   retrospective: string;
   hasAfterSixContent: boolean;
   rawContent: string;
+  summary?: string;
 }
 
 export function serializeJournal(journal: JournalEntry): SerializedJournalEntry {

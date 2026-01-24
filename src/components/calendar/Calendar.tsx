@@ -109,7 +109,7 @@ export function Calendar({ journals, onSelectDate }: CalendarProps) {
               isToday={isSameDay(date, today)}
               hasJournal={!!journal}
               hasAfterSixContent={journal?.hasAfterSixContent}
-              summary={journal?.nineToSix.slice(0, 50)}
+              summary={journal?.summary}
               accentColor={theme.accent}
               onClick={() => handleDayClick(date)}
             />
