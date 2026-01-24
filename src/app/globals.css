@@ -79,6 +79,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --calendar-bg: #f4efe7;
+  --calendar-paper: #fbf8f2;
+  --calendar-paper-muted: #f1ece4;
+  --calendar-line: #e2d7c8;
+  --calendar-accent: #c45442;
+  --calendar-text: #2f2b26;
+  --calendar-muted: #8b8277;
 }
 
 .dark {

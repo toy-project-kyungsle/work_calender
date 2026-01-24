@@ -1,4 +1,5 @@
 import type { JournalEntry } from "@/types/journal";
+import { SECTION_NAMES } from "@/lib/constants";
 
 /**
  * 파일명에서 날짜를 파싱합니다.
@@ -33,12 +34,13 @@ export function parseJournalContent(content: string): ParsedContent {
     retrospective: "",
   };
 
-  // 섹션 패턴들
-  const routinePattern = /## 루틴\n([\s\S]*?)(?=\n#|\n## |$)/;
-  const nineToSixPattern = /# 1\. 9 to 6 할 일\n([\s\S]*?)(?=\n# \d|$)/;
-  const afterSixPattern = /# 2\. 6시 이후 하려는 일\n([\s\S]*?)(?=\n# \d|$)/;
-  const notesPattern = /# 3\. 노트\n([\s\S]*?)(?=\n# \d|$)/;
-  const retrospectivePattern = /# 4\. 회고\n([\s\S]*?)(?=\n# \d|$)/;
+  // 섹션 패턴들 (상수에서 이름 가져옴)
+  const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const routinePattern = new RegExp(`## ${escapeRegex(SECTION_NAMES.routine)}\\n([\\s\\S]*?)(?=\\n#|\\n## |$)`);
+  const nineToSixPattern = new RegExp(`# 1\\. ${escapeRegex(SECTION_NAMES.nineToSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
+  const afterSixPattern = new RegExp(`# 2\\. ${escapeRegex(SECTION_NAMES.afterSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
+  const notesPattern = new RegExp(`# 3\\. ${escapeRegex(SECTION_NAMES.notes)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
+  const retrospectivePattern = new RegExp(`# 4\\. ${escapeRegex(SECTION_NAMES.retrospective)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
 
   const routineMatch = content.match(routinePattern);
   if (routineMatch) sections.routine = routineMatch[1].trim();

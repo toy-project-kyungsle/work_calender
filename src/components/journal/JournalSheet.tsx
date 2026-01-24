@@ -7,6 +7,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import type { JournalEntry } from "@/types/journal";
+import { SECTION_NAMES } from "@/lib/constants";
 
 interface JournalSheetProps {
   journal: JournalEntry | null;
@@ -34,15 +35,19 @@ function JournalSection({
   if (!content) return null;
 
   return (
-    <div className="mb-6">
-      <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-        <span>{icon}</span>
-        {title}
-      </h3>
-      <div className="text-sm text-muted-foreground whitespace-pre-wrap pl-6">
+    <section className="border-t border-[var(--calendar-line)] py-5">
+      <div className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--calendar-line)] text-[var(--calendar-accent)] text-sm">
+          {icon}
+        </span>
+        <h3 className="text-xs font-semibold tracking-[0.3em] text-[var(--calendar-muted)]">
+          {title}
+        </h3>
+      </div>
+      <div className="mt-3 text-sm leading-6 text-[var(--calendar-text)] whitespace-pre-wrap">
         {content}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -51,43 +56,50 @@ export function JournalSheet({ journal, open, onOpenChange }: JournalSheetProps)
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle className="text-xl">
+      <SheetContent className="w-full sm:max-w-md overflow-y-auto gap-0">
+        <SheetHeader className="border-b border-[var(--calendar-line)] px-6 py-5">
+          <div className="text-[10px] font-semibold tracking-[0.45em] text-[var(--calendar-muted)]">
+            JOURNAL ENTRY
+          </div>
+          <SheetTitle className="mt-3 font-display text-3xl text-[var(--calendar-accent)]">
             {formatDate(journal.date)}
-            {journal.hasAfterSixContent && " 🔥"}
           </SheetTitle>
+          {journal.hasAfterSixContent && (
+            <div className="mt-2 text-[10px] font-semibold tracking-[0.4em] text-[var(--calendar-accent)]">
+              PM
+            </div>
+          )}
         </SheetHeader>
 
-        <div className="mt-6">
+        <div className="px-6 pb-6">
           {journal.routine && (
             <JournalSection
-              title="루틴"
+              title={SECTION_NAMES.routine}
               content={journal.routine}
               icon="📋"
             />
           )}
 
           <JournalSection
-            title="9 to 6 할 일"
+            title={SECTION_NAMES.nineToSix}
             content={journal.nineToSix}
             icon="💼"
           />
 
           <JournalSection
-            title="6시 이후 하려는 일"
+            title={SECTION_NAMES.afterSix}
             content={journal.afterSix}
             icon="🌙"
           />
 
           <JournalSection
-            title="노트"
+            title={SECTION_NAMES.notes}
             content={journal.notes}
             icon="📝"
           />
 
           <JournalSection
-            title="회고"
+            title={SECTION_NAMES.retrospective}
             content={journal.retrospective}
             icon="💭"
           />
