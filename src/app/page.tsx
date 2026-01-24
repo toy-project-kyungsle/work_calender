@@ -5,20 +5,40 @@ import path from "path";
 import type { SerializedJournalEntry } from "@/types/journal";
 import { serializeJournal } from "@/types/journal";
 
+// data/년도/월/*.md 구조로 파일 읽기
 async function getJournals(): Promise<SerializedJournalEntry[]> {
   const dataDir = path.join(process.cwd(), "data");
+  const journals: SerializedJournalEntry[] = [];
 
   try {
-    const files = fs.readdirSync(dataDir);
-    const mdFiles = files.filter((file) => file.endsWith(".md"));
+    // 년도 폴더 순회
+    const years = fs.readdirSync(dataDir, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name);
 
-    const journals: SerializedJournalEntry[] = [];
-    for (const fileName of mdFiles) {
-      const filePath = path.join(dataDir, fileName);
-      const content = fs.readFileSync(filePath, "utf-8");
-      const journal = createJournalEntry(fileName, content);
-      if (journal) {
-        journals.push(serializeJournal(journal));
+    for (const year of years) {
+      const yearDir = path.join(dataDir, year);
+
+      // 월 폴더 순회
+      const months = fs.readdirSync(yearDir, { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => d.name);
+
+      for (const month of months) {
+        const monthDir = path.join(yearDir, month);
+
+        // .md 파일 읽기
+        const files = fs.readdirSync(monthDir)
+          .filter((f) => f.endsWith(".md"));
+
+        for (const fileName of files) {
+          const filePath = path.join(monthDir, fileName);
+          const content = fs.readFileSync(filePath, "utf-8");
+          const journal = createJournalEntry(fileName, content);
+          if (journal) {
+            journals.push(serializeJournal(journal));
+          }
+        }
       }
     }
 
