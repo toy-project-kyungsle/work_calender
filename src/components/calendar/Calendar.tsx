@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MonthHeader } from "./MonthHeader";
 import { WeekdayHeader } from "./WeekdayHeader";
 import { DayCell } from "./DayCell";
@@ -33,23 +33,37 @@ export function Calendar({ journals, onSelectDate }: CalendarProps) {
     return journalMap.get(key);
   };
 
-  const handlePrevMonth = () => {
+  const handlePrevMonth = useCallback(() => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
       setCurrentYear(currentYear - 1);
     } else {
       setCurrentMonth(currentMonth - 1);
     }
-  };
+  }, [currentMonth, currentYear]);
 
-  const handleNextMonth = () => {
+  const handleNextMonth = useCallback(() => {
     if (currentMonth === 11) {
       setCurrentMonth(0);
       setCurrentYear(currentYear + 1);
     } else {
       setCurrentMonth(currentMonth + 1);
     }
-  };
+  }, [currentMonth, currentYear]);
+
+  // 키보드 단축키 (←/→ 화살표)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        handlePrevMonth();
+      } else if (e.key === "ArrowRight") {
+        handleNextMonth();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handlePrevMonth, handleNextMonth]);
 
   const handleDayClick = (date: Date) => {
     const journal = getJournalForDate(date);
