@@ -98,7 +98,9 @@ export function MonthHeader({ year, month, onPrev, onNext }: MonthHeaderProps) {
             &gt;
           </button>
         </div>
-        <MiniCalendar year={year} month={month} />
+        <div className="hidden md:block">
+          <MiniCalendar year={year} month={month} />
+        </div>
       </div>
     </div>
   );

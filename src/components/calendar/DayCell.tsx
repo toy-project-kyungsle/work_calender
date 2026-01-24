@@ -28,7 +28,7 @@ export function DayCell({
       onClick={onClick}
       disabled={!hasJournal}
       className={cn(
-        "relative min-h-24 p-2 text-left transition-colors",
+        "relative min-h-16 p-1.5 text-left transition-colors md:min-h-24 md:p-2",
         "bg-[var(--calendar-paper)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]",
         isCurrentMonth ? "text-[var(--calendar-text)]" : "text-[var(--calendar-muted)] bg-[var(--calendar-paper-muted)]",
         !hasJournal && "cursor-default opacity-70",
