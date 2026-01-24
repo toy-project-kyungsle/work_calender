@@ -2,12 +2,13 @@ import fs from "fs";
 import path from "path";
 import { createJournalEntry } from "@/lib/parser";
 import { summarizeJournal } from "@/lib/summarizer";
+import { DATA_DIR } from "@/lib/constants";
 import type { SerializedJournalEntry } from "@/types/journal";
 import { serializeJournal } from "@/types/journal";
 
-// data/년도/월/*.md 구조로 파일 읽기
+// data/calendar/년도/월/*.md 구조로 파일 읽기
 export async function getJournals(): Promise<SerializedJournalEntry[]> {
-  const dataDir = path.join(process.cwd(), "data");
+  const dataDir = path.join(process.cwd(), DATA_DIR);
   const journals: SerializedJournalEntry[] = [];
 
   try {

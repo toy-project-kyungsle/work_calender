@@ -1,4 +1,10 @@
 /**
+ * 데이터 디렉토리 경로 설정
+ * data/calendar/년도/월/*.md 구조
+ */
+export const DATA_DIR = "data/calendar";
+
+/**
  * 저널 섹션 이름 설정
  * 마크다운 파일의 섹션 헤더와 UI 표시에 사용됩니다.
  */
