@@ -7,7 +7,6 @@ interface DayCellProps {
   hasJournal?: boolean;
   hasAfterSixContent?: boolean;
   summary?: string;
-  accentColor?: string;
   onClick?: () => void;
 }
 
@@ -18,7 +17,6 @@ export function DayCell({
   hasJournal,
   hasAfterSixContent,
   summary,
-  accentColor,
   onClick,
 }: DayCellProps) {
   const dayOfWeek = date.getDay();
@@ -30,34 +28,43 @@ export function DayCell({
       onClick={onClick}
       disabled={!hasJournal}
       className={cn(
-        "relative min-h-24 p-2 rounded-lg border transition-colors text-left",
-        "hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20",
-        isCurrentMonth ? "bg-background" : "bg-muted/30",
-        !hasJournal && "cursor-default opacity-60",
-        hasJournal && "cursor-pointer hover:bg-accent/50",
-        isToday && "ring-2"
+        "relative min-h-24 p-2 text-left transition-colors",
+        "bg-[var(--calendar-paper)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]",
+        isCurrentMonth ? "text-[var(--calendar-text)]" : "text-[var(--calendar-muted)] bg-[var(--calendar-paper-muted)]",
+        !hasJournal && "cursor-default opacity-70",
+        hasJournal && "cursor-pointer hover:bg-[var(--calendar-paper-muted)]",
+        isToday && "outline outline-1 outline-[var(--calendar-accent)]"
       )}
-      style={isToday ? { boxShadow: `0 0 0 2px ${accentColor}` } : undefined}
     >
       {/* 날짜 번호 */}
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-center justify-between mb-2">
         <span
           className={cn(
-            "text-sm font-medium",
-            !isCurrentMonth && "text-muted-foreground",
-            isSunday && isCurrentMonth && "text-red-500",
-            isSaturday && isCurrentMonth && "text-blue-500"
+            "font-display text-lg leading-none",
+            !isCurrentMonth && "text-[var(--calendar-muted)]",
+            isSunday && isCurrentMonth && "text-[var(--calendar-accent)]",
+            isSaturday && isCurrentMonth && "text-[var(--calendar-accent)]"
           )}
         >
           {date.getDate()}
         </span>
         {/* 6시 이후 활동 이모지 */}
-        {hasAfterSixContent && <span className="text-sm">🔥</span>}
+        {hasAfterSixContent && (
+          <span className="text-[9px] font-semibold tracking-[0.2em] text-[var(--calendar-accent)]">
+            PM
+          </span>
+        )}
       </div>
 
       {/* 요약 텍스트 */}
       {summary && (
-        <p className="text-xs text-muted-foreground line-clamp-3">{summary}</p>
+        <p className="text-[10px] leading-4 text-[var(--calendar-muted)] line-clamp-3">
+          {summary}
+        </p>
+      )}
+
+      {hasJournal && !summary && (
+        <span className="absolute bottom-2 right-2 h-1.5 w-1.5 rounded-full bg-[var(--calendar-accent)] opacity-80" />
       )}
     </button>
   );

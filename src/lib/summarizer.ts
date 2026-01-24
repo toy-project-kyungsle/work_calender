@@ -1,35 +1,38 @@
-// Server-side only - 빌드 타임에 요약 생성
-import { SummarizerManager } from "node-summarizer";
-
 /**
- * 일지 내용을 2-3문장으로 요약합니다.
- * @param content - 요약할 텍스트
- * @returns 요약된 문자열
+ * 일지 내용에서 핵심 내용을 추출합니다.
+ * - 첫 번째 할 일 항목 추출
+ * - 마크다운 기호 제거
  */
-export async function summarizeJournal(content: string): Promise<string> {
-  // 빈 내용 처리
-  if (!content || content.trim().length === 0) {
-    return "";
+export function summarizeJournal(nineToSix: string, notes: string): string {
+  // 9to6에서 첫 번째 할 일 항목 추출
+  const todoLines = nineToSix
+    .split("\n")
+    .map((line) => line.replace(/^[-*]\s*/, "").trim())
+    .filter((line) => line.length > 0);
+
+  // 노트에서 첫 문장 추출
+  const noteFirstLine = notes
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)[0] || "";
+
+  // 첫 번째 할 일 + 노트 첫 줄
+  const parts: string[] = [];
+
+  if (todoLines[0]) {
+    parts.push(todoLines[0]);
   }
 
-  // 너무 짧은 내용은 그대로 반환
-  if (content.length < 50) {
-    return content.trim();
+  if (noteFirstLine && noteFirstLine !== todoLines[0]) {
+    parts.push(noteFirstLine);
   }
 
-  try {
-    const summarizer = new SummarizerManager(content, 2); // 2문장 요약
-    const result = await summarizer.getSummaryByFrequency();
+  const result = parts.join(" · ");
 
-    if (result.summary && result.summary.trim().length > 0) {
-      return result.summary.trim();
-    }
-
-    // 요약 실패 시 폴백
-    return content.slice(0, 80).trim() + "...";
-  } catch (error) {
-    console.error("Summarization failed:", error);
-    // 폴백: 첫 80자
-    return content.slice(0, 80).trim() + "...";
+  // 최대 60자로 제한
+  if (result.length > 60) {
+    return result.slice(0, 57) + "...";
   }
+
+  return result || "내용 없음";
 }

@@ -38,11 +38,8 @@ async function getJournals(): Promise<SerializedJournalEntry[]> {
           const content = fs.readFileSync(filePath, "utf-8");
           const journal = createJournalEntry(fileName, content);
           if (journal) {
-            // 9to6 + 노트 내용을 요약
-            const textToSummarize = [journal.nineToSix, journal.notes]
-              .filter(Boolean)
-              .join(" ");
-            journal.summary = await summarizeJournal(textToSummarize);
+            // 첫 번째 할 일 + 노트 첫 줄로 요약
+            journal.summary = summarizeJournal(journal.nineToSix, journal.notes);
             journals.push(serializeJournal(journal));
           }
         }
@@ -60,13 +57,15 @@ export default async function Home() {
   const journals = await getJournals();
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-foreground">Work Calendar</h1>
-          <p className="mt-2 text-muted-foreground">나의 작업 일지 📖</p>
-        </header>
-
+    <div
+      className="min-h-screen"
+      style={{
+        backgroundColor: "#f4efe7",
+        backgroundImage:
+          "radial-gradient(circle at top, #fbf7f0 0%, #f4efe7 45%, #efe9df 100%)",
+      }}
+    >
+      <main className="mx-auto flex w-full max-w-6xl flex-col py-12">
         <CalendarWithSheet journals={journals} />
       </main>
     </div>
