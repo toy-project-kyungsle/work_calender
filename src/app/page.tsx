@@ -1,23 +1,24 @@
-import { Calendar } from "@/components/calendar";
+import { CalendarWithSheet } from "@/components/CalendarWithSheet";
 import { createJournalEntry } from "@/lib/parser";
 import fs from "fs";
 import path from "path";
-import type { JournalEntry } from "@/types/journal";
+import type { SerializedJournalEntry } from "@/types/journal";
+import { serializeJournal } from "@/types/journal";
 
-async function getJournals(): Promise<JournalEntry[]> {
+async function getJournals(): Promise<SerializedJournalEntry[]> {
   const dataDir = path.join(process.cwd(), "data");
 
   try {
     const files = fs.readdirSync(dataDir);
     const mdFiles = files.filter((file) => file.endsWith(".md"));
 
-    const journals: JournalEntry[] = [];
+    const journals: SerializedJournalEntry[] = [];
     for (const fileName of mdFiles) {
       const filePath = path.join(dataDir, fileName);
       const content = fs.readFileSync(filePath, "utf-8");
       const journal = createJournalEntry(fileName, content);
       if (journal) {
-        journals.push(journal);
+        journals.push(serializeJournal(journal));
       }
     }
 
@@ -41,7 +42,7 @@ export default async function Home() {
           </p>
         </header>
 
-        <Calendar journals={journals} />
+        <CalendarWithSheet journals={journals} />
       </main>
     </div>
   );
