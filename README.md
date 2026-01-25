@@ -81,37 +81,54 @@ npm run test:run  # 단일 실행
 
 ### 일지 데이터 수정
 
-일지 데이터는 별도 레포지토리([growth_public_data_2](https://github.com/toy-project-kyungsle/growth_public_data_2))에서 관리됩니다:
+일지 데이터는 별도 레포지토리([growth_public_data_2](https://github.com/toy-project-kyungsle/growth_public_data_2))에서 관리됩니다.
+
+#### 자동 배포 (권장)
 
 ```bash
-# data 서브모듈로 이동
-cd data
+# growth_public_data_2 레포에서 직접 작업
+cd ~/growth_public_data_2
 
 # 일지 파일 추가/수정
-# 예: calender/2026/01/2026-01-25.md
+# 예: calender/2026/01/2026-01-26.md
 
-# 변경사항 커밋 (growth_public_data_2 레포지토리)
-git add calender/2026/01/2026-01-25.md
-git commit -m "feat: add journal for 2026-01-25"
+# 변경사항 커밋 및 푸시
+git add calender/2026/01/2026-01-26.md
+git commit -m "feat: add journal for 2026-01-26"
 git push origin main
 
-# 메인 프로젝트로 돌아가서 submodule 업데이트 반영
-cd ..
+# 🎉 완료! 최대 6시간 내 자동 배포됨
+# 또는 GitHub Actions에서 수동 트리거 가능
+```
+
+#### 수동 업데이트 (즉시 반영 필요 시)
+
+work_calender 레포에서 서브모듈 수동 업데이트:
+
+```bash
+cd ~/work_calender
+
+# 서브모듈 최신화
+git submodule update --remote data
+
+# 변경사항 확인 및 커밋
 git add data
 git commit -m "chore: update data submodule"
 git push origin main
+
+# 즉시 배포됨
 ```
 
 ### 최신 일지 데이터 가져오기
+
+로컬 개발 환경에서 최신 데이터 가져오기:
 
 ```bash
 # Submodule을 최신 커밋으로 업데이트
 git submodule update --remote data
 
-# 변경사항 반영
-git add data
-git commit -m "chore: update data submodule to latest"
-git push origin main
+# 또는 전체 레포 최신화
+git pull --recurse-submodules
 ```
 
 ## 🛠 기술 스택

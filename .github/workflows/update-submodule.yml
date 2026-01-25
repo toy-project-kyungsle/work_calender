@@ -1,0 +1,110 @@
+name: Update Submodule and Deploy
+
+on:
+  schedule:
+    # 매 6시간마다 실행 (0시, 6시, 12시, 18시 KST 기준)
+    - cron: '0 */6 * * *'
+  workflow_dispatch:  # 수동 트리거 가능
+
+permissions:
+  contents: write  # 서브모듈 업데이트 커밋을 위해 필요
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+    outputs:
+      submodule_updated: ${{ steps.check_changes.outputs.changed }}
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update submodule to latest
+        run: |
+          git submodule update --remote --merge data
+          echo "📦 Submodule updated to latest commit"
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "✅ No changes detected in submodule"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "🔔 Submodule has been updated"
+            git diff --stat
+          fi
+
+      - name: Commit and push changes
+        id: commit
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git add data
+          git commit -m "chore: auto-update data submodule to latest
+
+          Updated by scheduled workflow at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          git push origin main
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "✅ Changes committed and pushed"
+
+      - name: Log update status
+        run: |
+          if [ "${{ steps.check_changes.outputs.changed }}" == "true" ]; then
+            echo "::notice title=Submodule Updated::Data submodule updated to latest commit. Build will start."
+          else
+            echo "::notice title=No Update::Data submodule is already up to date. Skipping build."
+          fi
+
+  build:
+    needs: update-submodule
+    if: needs.update-submodule.outputs.submodule_updated == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout updated code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.update-submodule.outputs.commit_sha }}
+          submodules: recursive
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Next.js
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
