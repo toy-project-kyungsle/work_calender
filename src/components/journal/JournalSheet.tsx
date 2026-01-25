@@ -68,9 +68,9 @@ export function JournalSheet({
           <SheetTitle className="mt-3 font-display text-3xl text-[var(--calendar-accent)]">
             {formatDate(journal.date)}
           </SheetTitle>
-          {journal.hasAfterSixContent && (
+          {journal.hasGrowthContent && (
             <div className="mt-2 text-[10px] font-semibold tracking-[0.4em] text-[var(--calendar-accent)]">
-              PM
+              🔥 개인 공부 성공!
             </div>
           )}
         </SheetHeader>

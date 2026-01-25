@@ -5,7 +5,7 @@ interface DayCellProps {
   isCurrentMonth: boolean;
   isToday?: boolean;
   hasJournal?: boolean;
-  hasAfterSixContent?: boolean;
+  hasGrowthContent?: boolean;
   summary?: string;
   onClick?: () => void;
 }
@@ -15,7 +15,7 @@ export function DayCell({
   isCurrentMonth,
   isToday,
   hasJournal,
-  hasAfterSixContent,
+  hasGrowthContent,
   summary,
   onClick,
 }: DayCellProps) {
@@ -30,10 +30,12 @@ export function DayCell({
       className={cn(
         "relative min-h-16 p-1.5 text-left transition-colors md:min-h-24 md:p-2",
         "bg-[var(--calendar-paper)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]",
-        isCurrentMonth ? "text-[var(--calendar-text)]" : "text-[var(--calendar-muted)] bg-[var(--calendar-paper-muted)]",
+        isCurrentMonth
+          ? "text-[var(--calendar-text)]"
+          : "text-[var(--calendar-muted)] bg-[var(--calendar-paper-muted)]",
         !hasJournal && "cursor-default opacity-70",
         hasJournal && "cursor-pointer hover:bg-[var(--calendar-paper-muted)]",
-        isToday && "outline outline-1 outline-[var(--calendar-accent)]"
+        isToday && "outline outline-1 outline-[var(--calendar-accent)]",
       )}
     >
       {/* 날짜 번호 */}
@@ -43,15 +45,15 @@ export function DayCell({
             "font-display text-lg leading-none",
             !isCurrentMonth && "text-[var(--calendar-muted)]",
             isSunday && isCurrentMonth && "text-[var(--calendar-accent)]",
-            isSaturday && isCurrentMonth && "text-[var(--calendar-accent)]"
+            isSaturday && isCurrentMonth && "text-[var(--calendar-accent)]",
           )}
         >
           {date.getDate()}
         </span>
         {/* 6시 이후 활동 이모지 */}
-        {hasAfterSixContent && (
+        {hasGrowthContent && (
           <span className="text-[9px] font-semibold tracking-[0.2em] text-[var(--calendar-accent)]">
-            PM
+            🕧🔥
           </span>
         )}
       </div>

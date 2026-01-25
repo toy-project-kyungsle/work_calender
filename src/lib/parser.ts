@@ -74,7 +74,7 @@ export function parseJournalContent(content: string): ParsedContent {
 /**
  * 6시 이후 섹션에 실제 내용이 있는지 확인합니다.
  */
-export function hasAfterSixContent(afterSixSection: string): boolean {
+export function hasGrowthContent(afterSixSection: string): boolean {
   return afterSixSection.trim().length > 0;
 }
 
@@ -98,7 +98,7 @@ export function createJournalEntry(
     growth: parsed.growth,
     notes: parsed.notes,
     retrospective: parsed.retrospective,
-    hasAfterSixContent: hasAfterSixContent(parsed.growth),
+    hasGrowthContent: hasGrowthContent(parsed.growth),
     rawContent,
   };
 }

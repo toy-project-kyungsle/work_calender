@@ -119,7 +119,7 @@ export function Calendar({ journals, onSelectDate }: CalendarProps) {
                     )}
                     isToday={isSameDay(date, today)}
                     hasJournal={!!journal}
-                    hasAfterSixContent={journal?.hasAfterSixContent}
+                    hasGrowthContent={journal?.hasGrowthContent}
                     summary={(journal?.summary ?? journal?.nineToSix)?.slice(
                       0,
                       52,

@@ -6,7 +6,7 @@ export interface JournalEntry {
   growth: string;
   notes: string;
   retrospective: string;
-  hasAfterSixContent: boolean;
+  hasGrowthContent: boolean;
   rawContent: string;
   summary?: string; // 캘린더에 표시할 요약
 }
@@ -20,7 +20,7 @@ export interface SerializedJournalEntry {
   growth: string;
   notes: string;
   retrospective: string;
-  hasAfterSixContent: boolean;
+  hasGrowthContent: boolean;
   rawContent: string;
   summary?: string;
 }

@@ -1,9 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  parseFileName,
-  parseJournalContent,
-  hasAfterSixContent,
-} from "./parser";
+import { parseFileName, parseJournalContent, hasGrowthContent } from "./parser";
 
 describe("parseFileName", () => {
   it("YYYY-MM-DD.md 형식에서 날짜를 파싱한다", () => {
@@ -58,15 +54,15 @@ describe("parseJournalContent", () => {
   });
 });
 
-describe("hasAfterSixContent", () => {
+describe("hasGrowthContent", () => {
   it("6시 이후 섹션에 내용이 있으면 true", () => {
     const content = "- 사이드 프로젝트 작업";
-    expect(hasAfterSixContent(content)).toBe(true);
+    expect(hasGrowthContent(content)).toBe(true);
   });
 
   it("6시 이후 섹션이 비어있으면 false", () => {
-    expect(hasAfterSixContent("")).toBe(false);
-    expect(hasAfterSixContent("   ")).toBe(false);
-    expect(hasAfterSixContent("\n\n")).toBe(false);
+    expect(hasGrowthContent("")).toBe(false);
+    expect(hasGrowthContent("   ")).toBe(false);
+    expect(hasGrowthContent("\n\n")).toBe(false);
   });
 });

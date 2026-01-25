@@ -1,11 +1,13 @@
 # Implementation Plan: Work Calendar
 
 ## Overview
+
 Obsidian 바인드 일지를 시각화하는 월별 캘린더 웹 애플리케이션. 일지 클릭 시 상세 보기, 요약 표시, 조건부 이모지 표시 기능 구현. Next.js 14+ (App Router) 기반, shadcn/ui 활용.
 
 **예상 기간**: 3-4일 (총 15-20시간)
 
 ## Milestones Overview
+
 ```
 Progress: [████████████████████] 100%
 
@@ -21,6 +23,7 @@ M8: ████████████████████ 100% ✅ 통합
 ```
 
 ## Tech Stack
+
 - **Framework**: Next.js 14+ (App Router, Turbopack)
 - **Language**: TypeScript
 - **UI**: shadcn/ui, React Bits (선택적)
@@ -29,6 +32,7 @@ M8: ████████████████████ 100% ✅ 통합
 - **요약**: node-summarizer (TF-IDF 기반 경량 라이브러리)
 
 ## Data Source
+
 - **원본**: `C:\Users\user\Documents\projects\bind_obsidian\01.바인드일지`
 - **복사**: 프로젝트 내 `data/` 폴더로 이동
 - **파일 형식**: 마크다운 (.md)
@@ -36,11 +40,13 @@ M8: ████████████████████ 100% ✅ 통합
 ## Milestones
 
 ### M0: 프로젝트 초기 설정
+
 **Status**: ✅ Completed
 **Duration**: 1-2시간
 **Dependencies**: None
 
 **Sub-tasks**:
+
 - [x] 0.1 - Next.js 14+ 프로젝트 생성 (`create-next-app`)
 - [x] 0.2 - TypeScript 설정 확인
 - [x] 0.3 - shadcn/ui 설치 및 초기화
@@ -50,6 +56,7 @@ M8: ████████████████████ 100% ✅ 통합
 - [x] 0.7 - 기본 레이아웃 설정 (layout.tsx)
 
 **완료 기준**:
+
 - `npm run dev` 정상 실행
 - shadcn/ui Button 컴포넌트 렌더링 확인
 - `data/` 폴더에 샘플 .md 파일 존재
@@ -57,11 +64,13 @@ M8: ████████████████████ 100% ✅ 통합
 ---
 
 ### M1: 데이터 구조 및 파싱
+
 **Status**: ✅ Completed
 **Duration**: 2시간
 **Dependencies**: M0
 
 **Sub-tasks**:
+
 - [x] 1.1 - JournalEntry 타입 정의
 - [x] 1.2 - 마크다운 파일명 → 날짜 파싱 유틸리티
 - [x] 1.3 - 섹션별 파싱 로직 구현
@@ -69,37 +78,41 @@ M8: ████████████████████ 100% ✅ 통합
   - `# 2. 6시 이후 하려는 일` 섹션 (🔥 표시 조건)
   - `# 3. 노트` 섹션
   - `# 4. 회고` 섹션
-- [x] 1.4 - `hasAfterSixContent` 플래그 계산 로직
+- [x] 1.4 - `hasGrowthContent` 플래그 계산 로직
 - [x] 1.5 - 파싱 함수 단위 테스트 작성 (6 tests passed)
 
 **완료 기준**:
+
 - 샘플 일지 → JournalEntry 객체 변환 성공
 - 섹션별 내용 정확히 분리
 - 테스트 통과
 
 **Data Type**:
+
 ```typescript
 interface JournalEntry {
   date: Date;
   fileName: string;
   routine?: string;
-  nineToSix: string;      // 9 to 6 섹션 전체
-  afterSix: string;       // 6시 이후 섹션 전체
-  notes: string;          // 노트 섹션
-  retrospective: string;  // 회고 섹션
-  hasAfterSixContent: boolean; // 🔥 표시 조건
-  rawContent: string;     // 원본 마크다운
+  nineToSix: string; // 9 to 6 섹션 전체
+  afterSix: string; // 6시 이후 섹션 전체
+  notes: string; // 노트 섹션
+  retrospective: string; // 회고 섹션
+  hasGrowthContent: boolean; // 🔥 표시 조건
+  rawContent: string; // 원본 마크다운
 }
 ```
 
 ---
 
 ### M2: 캘린더 기본 UI
+
 **Status**: ✅ Completed
 **Duration**: 2-3시간
 **Dependencies**: M0
 
 **Sub-tasks**:
+
 - [x] 2.1 - 디자인 레퍼런스 분석 (월별 테마, 레이아웃 구조)
 - [x] 2.2 - Calendar 컴포넌트 기본 구조 (CSS Grid 7열)
 - [x] 2.3 - MonthHeader 컴포넌트 (월 이름, 연도)
@@ -109,6 +122,7 @@ interface JournalEntry {
 - [ ] 2.7 - React Bits 컴포넌트 활용 검토 (선택) - 생략
 
 **완료 기준**:
+
 - 캘린더 그리드 렌더링
 - 현재 월 날짜 정확히 표시
 - 이전/다음 달 날짜 흐리게 표시
@@ -117,46 +131,55 @@ interface JournalEntry {
 ---
 
 ### M3: 월별 테마 시스템
+
 **Status**: ✅ Completed
 **Duration**: 1-2시간
 **Dependencies**: M2
 
 **Sub-tasks**:
+
 - [x] 3.1 - 12개월 색상 팔레트 정의 (themes.ts)
 - [x] 3.2 - getMonthTheme 함수 구현
 - [x] 3.3 - Calendar 컴포넌트에 테마 적용
 - [x] 3.4 - 테마 전환 시 부드러운 transition 추가 (duration-300)
 
 **완료 기준**:
+
 - 1월~12월 각각 다른 색상 테마 적용
 - 월 변경 시 테마 자동 변경
 
 **Color Palette**:
+
 ```typescript
-const monthThemes: Record<number, { bg: string; accent: string; text: string }> = {
-  1:  { bg: '#E3F2FD', accent: '#1976D2', text: '#0D47A1' }, // 1월: 파랑
-  2:  { bg: '#FCE4EC', accent: '#E91E63', text: '#880E4F' }, // 2월: 핑크
-  3:  { bg: '#E8F5E9', accent: '#4CAF50', text: '#1B5E20' }, // 3월: 초록
-  4:  { bg: '#FFF3E0', accent: '#FF9800', text: '#E65100' }, // 4월: 주황
-  5:  { bg: '#F3E5F5', accent: '#9C27B0', text: '#4A148C' }, // 5월: 보라
-  6:  { bg: '#E0F7FA', accent: '#00BCD4', text: '#006064' }, // 6월: 청록
-  7:  { bg: '#FFEBEE', accent: '#F44336', text: '#B71C1C' }, // 7월: 빨강
-  8:  { bg: '#FFF8E1', accent: '#FFC107', text: '#FF6F00' }, // 8월: 노랑
-  9:  { bg: '#EFEBE9', accent: '#795548', text: '#3E2723' }, // 9월: 갈색
-  10: { bg: '#FAFAFA', accent: '#607D8B', text: '#263238' }, // 10월: 회색
-  11: { bg: '#EDE7F6', accent: '#673AB7', text: '#311B92' }, // 11월: 남보라
-  12: { bg: '#E8EAF6', accent: '#3F51B5', text: '#1A237E' }, // 12월: 인디고
+const monthThemes: Record<
+  number,
+  { bg: string; accent: string; text: string }
+> = {
+  1: { bg: "#E3F2FD", accent: "#1976D2", text: "#0D47A1" }, // 1월: 파랑
+  2: { bg: "#FCE4EC", accent: "#E91E63", text: "#880E4F" }, // 2월: 핑크
+  3: { bg: "#E8F5E9", accent: "#4CAF50", text: "#1B5E20" }, // 3월: 초록
+  4: { bg: "#FFF3E0", accent: "#FF9800", text: "#E65100" }, // 4월: 주황
+  5: { bg: "#F3E5F5", accent: "#9C27B0", text: "#4A148C" }, // 5월: 보라
+  6: { bg: "#E0F7FA", accent: "#00BCD4", text: "#006064" }, // 6월: 청록
+  7: { bg: "#FFEBEE", accent: "#F44336", text: "#B71C1C" }, // 7월: 빨강
+  8: { bg: "#FFF8E1", accent: "#FFC107", text: "#FF6F00" }, // 8월: 노랑
+  9: { bg: "#EFEBE9", accent: "#795548", text: "#3E2723" }, // 9월: 갈색
+  10: { bg: "#FAFAFA", accent: "#607D8B", text: "#263238" }, // 10월: 회색
+  11: { bg: "#EDE7F6", accent: "#673AB7", text: "#311B92" }, // 11월: 남보라
+  12: { bg: "#E8EAF6", accent: "#3F51B5", text: "#1A237E" }, // 12월: 인디고
 };
 ```
 
 ---
 
 ### M4: 월 네비게이션
+
 **Status**: ✅ Completed
 **Duration**: 1-2시간
 **Dependencies**: M2, M3
 
 **Sub-tasks**:
+
 - [x] 4.1 - NavigationBar 컴포넌트 (이전/다음 버튼, 현재 월 표시) - Calendar에 통합
 - [x] 4.2 - 월 상태 관리 (useState: currentYear, currentMonth)
 - [x] 4.3 - 이전/다음 월 이동 핸들러
@@ -164,6 +187,7 @@ const monthThemes: Record<number, { bg: string; accent: string; text: string }> 
 - [x] 4.5 - 키보드 단축키 (←/→ 화살표) 지원
 
 **완료 기준**:
+
 - 이전/다음 버튼으로 월 이동 가능
 - 테마 색상이 월에 맞게 변경
 - 부드러운 전환 애니메이션
@@ -171,11 +195,13 @@ const monthThemes: Record<number, { bg: string; accent: string; text: string }> 
 ---
 
 ### M5: 일지 상세 보기
+
 **Status**: ✅ Completed
 **Duration**: 2시간
 **Dependencies**: M1 AND M2 (둘 다 완료 필요)
 
 **Sub-tasks**:
+
 - [x] 5.1 - JournalSheet 컴포넌트 (shadcn/ui Sheet 활용)
 - [x] 5.2 - 섹션별 렌더링 UI (9to6, 6시이후, 노트, 회고)
 - [ ] 5.3 - 마크다운 렌더링 - 생략 (plain text로 충분)
@@ -183,6 +209,7 @@ const monthThemes: Record<number, { bg: string; accent: string; text: string }> 
 - [x] 5.5 - 일지 없는 날짜 처리 (비활성화)
 
 **완료 기준**:
+
 - 날짜 클릭 시 해당 일지 Sheet 표시
 - 섹션별 구분 명확
 - 일지 없는 날짜 적절히 처리
@@ -190,11 +217,13 @@ const monthThemes: Record<number, { bg: string; accent: string; text: string }> 
 ---
 
 ### M6: 날짜별 요약 표시
+
 **Status**: ✅ Completed (간소화)
 **Duration**: 2-3시간
 **Dependencies**: M1 AND M2 (둘 다 완료 필요)
 
 **Sub-tasks**:
+
 - [ ] 6.1 - node-summarizer 설치 및 설정 - 생략
 - [ ] 6.2 - 요약 생성 유틸리티 함수 - 생략
 - [ ] 6.3 - Server Component에서 빌드 타임 요약 계산 - 생략
@@ -203,24 +232,26 @@ const monthThemes: Record<number, { bg: string; accent: string; text: string }> 
 - [x] 6.6 - 폴백: 첫 50자 표시
 
 **완료 기준**:
+
 - 각 날짜 셀에 일지 요약 2-3줄 표시
 - 긴 텍스트 말줄임 처리
 - 요약 없는 날짜는 빈 표시
 
 **요약 전략** (Server-side Only):
+
 ```typescript
 // lib/summarizer.ts - Server Component에서만 사용
 // 'use server' directive 또는 Server Component에서 import
-import { SummarizerManager } from 'node-summarizer';
+import { SummarizerManager } from "node-summarizer";
 
 export async function summarizeJournal(content: string): Promise<string> {
   try {
     const summarizer = new SummarizerManager(content, 2); // 2문장
     const summary = await summarizer.getSummaryByFrequency();
-    return summary.summary || content.slice(0, 50) + '...';
+    return summary.summary || content.slice(0, 50) + "...";
   } catch {
     // 폴백: 요약 실패 시 단순 truncate
-    return content.slice(0, 50) + '...';
+    return content.slice(0, 50) + "...";
   }
 }
 ```
@@ -228,18 +259,21 @@ export async function summarizeJournal(content: string): Promise<string> {
 ---
 
 ### M7: 조건부 이모지 표시
+
 **Status**: ✅ Completed
 **Duration**: 1시간
 **Dependencies**: M1 AND M2 (둘 다 완료 필요)
 
 **Sub-tasks**:
+
 - [x] 7.1 - DayCell에 이모지 표시 영역 추가
-- [x] 7.2 - hasAfterSixContent 조건 체크
+- [x] 7.2 - hasGrowthContent 조건 체크
 - [x] 7.3 - 🔥 이모지 조건부 렌더링
 - [x] 7.4 - 이모지 위치/크기 스타일 조정
 - [x] 7.5 - 단위 테스트 작성 (parser.test.ts에 포함)
 
 **완료 기준**:
+
 - "# 2. 6시 이후 하려는 일" 내용이 있으면 🔥 표시
 - 내용이 비어있거나 섹션만 있으면 미표시
 - 테스트 통과
@@ -247,11 +281,13 @@ export async function summarizeJournal(content: string): Promise<string> {
 ---
 
 ### M8: 통합 테스트 및 마무리
+
 **Status**: ✅ Completed
 **Duration**: 2시간
 **Dependencies**: M0-M7
 
 **Sub-tasks**:
+
 - [ ] 8.1 - Playwright E2E 테스트 작성 - 추후
 - [x] 8.2 - 접근성 검토 (키보드 탐색 ←/→)
 - [x] 8.3 - 성능 최적화 (빌드 타임 정적 생성)
@@ -259,6 +295,7 @@ export async function summarizeJournal(content: string): Promise<string> {
 - [ ] 8.5 - README 작성 - 추후
 
 **완료 기준**:
+
 - 모든 테스트 통과
 - Lighthouse 점수 90+
 - 문서화 완료
@@ -266,6 +303,7 @@ export async function summarizeJournal(content: string): Promise<string> {
 ---
 
 ## Dependency Graph
+
 ```
 M0 (초기 설정)
 ├── M1 (데이터 파싱)
@@ -281,10 +319,12 @@ M0-M7 완료 후:
 ```
 
 **병렬 실행 가능**:
+
 - M1과 M2는 병렬 진행 가능 (M0 완료 후)
 - M5, M6, M7은 병렬 진행 가능 (M1+M2 완료 후)
 
 ## File Structure
+
 ```
 work_calender/
 ├── src/
@@ -316,14 +356,17 @@ work_calender/
 ```
 
 ## Risk & Mitigations
-| 리스크 | 완화 전략 |
-|--------|----------|
+
+| 리스크                | 완화 전략                    |
+| --------------------- | ---------------------------- |
 | 일지 파일 형식 불일치 | 파싱 시 try-catch, 폴백 처리 |
-| 요약 라이브러리 품질 | 폴백으로 단순 truncate 구현 |
-| 많은 파일 로딩 성능 | 빌드 타임 처리, 캐싱 |
+| 요약 라이브러리 품질  | 폴백으로 단순 truncate 구현  |
+| 많은 파일 로딩 성능   | 빌드 타임 처리, 캐싱         |
 
 ## Session Notes
+
 ### Session 1 (2025-01-24)
+
 - ✅ M0 완료: 프로젝트 초기 설정
   - Next.js 16.1.4 + Turbopack
   - shadcn/ui (Button, Sheet)
@@ -331,7 +374,7 @@ work_calender/
   - 빌드 테스트 성공
 - ✅ M1 완료: 데이터 구조 및 파싱
   - JournalEntry 타입 정의
-  - parseFileName, parseJournalContent, hasAfterSixContent 구현
+  - parseFileName, parseJournalContent, hasGrowthContent 구현
   - Vitest 테스트 환경 설정
   - 6개 테스트 통과
 - ✅ M2 완료: 캘린더 기본 UI
@@ -352,7 +395,7 @@ work_calender/
   - CalendarWithSheet로 클라이언트 상태 관리
   - SerializedJournalEntry로 서버→클라이언트 직렬화
 - ✅ M6 완료: 날짜별 요약 표시 (nineToSix 첫 50자, line-clamp-3)
-- ✅ M7 완료: 조건부 이모지 (hasAfterSixContent → 🔥)
+- ✅ M7 완료: 조건부 이모지 (hasGrowthContent → 🔥)
 - ✅ M8 완료: 통합 테스트 및 마무리
   - 12개 단위 테스트 통과
   - ESLint 통과
