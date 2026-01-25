@@ -1,8 +1,8 @@
 /**
  * 데이터 디렉토리 경로 설정
- * data/calendar/년도/월/*.md 구조
+ * data/calender/년도/월/*.md 구조
  */
-export const DATA_DIR = "data/calendar";
+export const DATA_DIR = "data/calender";
 
 /**
  * 저널 섹션 이름 설정
