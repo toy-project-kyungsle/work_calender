@@ -3,7 +3,7 @@ export interface JournalEntry {
   fileName: string;
   routine?: string;
   nineToSix: string;
-  afterSix: string;
+  growth: string;
   notes: string;
   retrospective: string;
   hasAfterSixContent: boolean;
@@ -17,7 +17,7 @@ export interface SerializedJournalEntry {
   fileName: string;
   routine?: string;
   nineToSix: string;
-  afterSix: string;
+  growth: string;
   notes: string;
   retrospective: string;
   hasAfterSixContent: boolean;
@@ -25,14 +25,18 @@ export interface SerializedJournalEntry {
   summary?: string;
 }
 
-export function serializeJournal(journal: JournalEntry): SerializedJournalEntry {
+export function serializeJournal(
+  journal: JournalEntry,
+): SerializedJournalEntry {
   return {
     ...journal,
     dateIso: journal.date.toISOString(),
   };
 }
 
-export function deserializeJournal(journal: SerializedJournalEntry): JournalEntry {
+export function deserializeJournal(
+  journal: SerializedJournalEntry,
+): JournalEntry {
   return {
     ...journal,
     date: new Date(journal.dateIso),

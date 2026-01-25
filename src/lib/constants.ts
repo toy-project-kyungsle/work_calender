@@ -11,7 +11,7 @@ export const DATA_DIR = "data/calender";
 export const SECTION_NAMES = {
   routine: "루틴",
   nineToSix: "9 to 6 할 일",
-  afterSix: "6시 이후 하려는 일",
+  growth: "성장하기",
   notes: "노트",
   retrospective: "회고",
 } as const;

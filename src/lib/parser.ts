@@ -17,7 +17,7 @@ export function parseFileName(fileName: string): Date | null {
 interface ParsedContent {
   routine?: string;
   nineToSix: string;
-  afterSix: string;
+  growth: string;
   notes: string;
   retrospective: string;
 }
@@ -29,7 +29,7 @@ export function parseJournalContent(content: string): ParsedContent {
   const sections = {
     routine: "",
     nineToSix: "",
-    afterSix: "",
+    growth: "",
     notes: "",
     retrospective: "",
   };
@@ -44,7 +44,7 @@ export function parseJournalContent(content: string): ParsedContent {
     `# 1\\. ${escapeRegex(SECTION_NAMES.nineToSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
   );
   const afterSixPattern = new RegExp(
-    `# 2\\. ${escapeRegex(SECTION_NAMES.afterSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
+    `# 2\\. ${escapeRegex(SECTION_NAMES.growth)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
   );
   const notesPattern = new RegExp(
     `# 3\\. ${escapeRegex(SECTION_NAMES.notes)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
@@ -60,7 +60,7 @@ export function parseJournalContent(content: string): ParsedContent {
   if (nineToSixMatch) sections.nineToSix = nineToSixMatch[1].trim();
 
   const afterSixMatch = content.match(afterSixPattern);
-  if (afterSixMatch) sections.afterSix = afterSixMatch[1].trim();
+  if (afterSixMatch) sections.growth = afterSixMatch[1].trim();
 
   const notesMatch = content.match(notesPattern);
   if (notesMatch) sections.notes = notesMatch[1].trim();
@@ -95,10 +95,10 @@ export function createJournalEntry(
     fileName,
     routine: parsed.routine || undefined,
     nineToSix: parsed.nineToSix,
-    afterSix: parsed.afterSix,
+    growth: parsed.growth,
     notes: parsed.notes,
     retrospective: parsed.retrospective,
-    hasAfterSixContent: hasAfterSixContent(parsed.afterSix),
+    hasAfterSixContent: hasAfterSixContent(parsed.growth),
     rawContent,
   };
 }

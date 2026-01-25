@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { parseFileName, parseJournalContent, hasAfterSixContent } from "./parser";
+import {
+  parseFileName,
+  parseJournalContent,
+  hasAfterSixContent,
+} from "./parser";
 
 describe("parseFileName", () => {
   it("YYYY-MM-DD.md 형식에서 날짜를 파싱한다", () => {
@@ -43,7 +47,7 @@ describe("parseJournalContent", () => {
     const result = parseJournalContent(sampleContent);
 
     expect(result.nineToSix).toContain("프로젝트 A 기획안 검토");
-    expect(result.afterSix).toContain("사이드 프로젝트 작업");
+    expect(result.growth).toContain("사이드 프로젝트 작업");
     expect(result.notes).toContain("새로운 요구사항이 추가됨");
     expect(result.retrospective).toContain("80%를 완료했다");
   });

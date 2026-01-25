@@ -51,7 +51,11 @@ function JournalSection({
   );
 }
 
-export function JournalSheet({ journal, open, onOpenChange }: JournalSheetProps) {
+export function JournalSheet({
+  journal,
+  open,
+  onOpenChange,
+}: JournalSheetProps) {
   if (!journal) return null;
 
   return (
@@ -87,8 +91,8 @@ export function JournalSheet({ journal, open, onOpenChange }: JournalSheetProps)
           />
 
           <JournalSection
-            title={SECTION_NAMES.afterSix}
-            content={journal.afterSix}
+            title={SECTION_NAMES.growth}
+            content={journal.growth}
             icon="🌙"
           />
 
