@@ -35,12 +35,23 @@ export function parseJournalContent(content: string): ParsedContent {
   };
 
   // 섹션 패턴들 (상수에서 이름 가져옴)
-  const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const routinePattern = new RegExp(`## ${escapeRegex(SECTION_NAMES.routine)}\\n([\\s\\S]*?)(?=\\n#|\\n## |$)`);
-  const nineToSixPattern = new RegExp(`# 1\\. ${escapeRegex(SECTION_NAMES.nineToSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
-  const afterSixPattern = new RegExp(`# 2\\. ${escapeRegex(SECTION_NAMES.afterSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
-  const notesPattern = new RegExp(`# 3\\. ${escapeRegex(SECTION_NAMES.notes)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
-  const retrospectivePattern = new RegExp(`# 4\\. ${escapeRegex(SECTION_NAMES.retrospective)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`);
+  const escapeRegex = (str: string) =>
+    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const routinePattern = new RegExp(
+    `# ${escapeRegex(SECTION_NAMES.routine)}\\n([\\s\\S]*?)(?=\\n#|\\n## |$)`,
+  );
+  const nineToSixPattern = new RegExp(
+    `# 1\\. ${escapeRegex(SECTION_NAMES.nineToSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
+  );
+  const afterSixPattern = new RegExp(
+    `# 2\\. ${escapeRegex(SECTION_NAMES.afterSix)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
+  );
+  const notesPattern = new RegExp(
+    `# 3\\. ${escapeRegex(SECTION_NAMES.notes)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
+  );
+  const retrospectivePattern = new RegExp(
+    `# 4\\. ${escapeRegex(SECTION_NAMES.retrospective)}\\n([\\s\\S]*?)(?=\\n# \\d|$)`,
+  );
 
   const routineMatch = content.match(routinePattern);
   if (routineMatch) sections.routine = routineMatch[1].trim();
@@ -72,7 +83,7 @@ export function hasAfterSixContent(afterSixSection: string): boolean {
  */
 export function createJournalEntry(
   fileName: string,
-  rawContent: string
+  rawContent: string,
 ): JournalEntry | null {
   const date = parseFileName(fileName);
   if (!date) return null;
