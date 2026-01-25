@@ -1,36 +1,176 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📅 Work Calendar
 
-## Getting Started
+업무 일지를 시각화하는 월간 캘린더 애플리케이션입니다. Markdown 형식의 일지를 읽어 월별 테마 색상의 캘린더에 표시합니다.
 
-First, run the development server:
+## ✨ 주요 기능
+
+- 📖 **마크다운 일지 파싱**: 일지 형식의 `.md` 파일 자동 파싱
+- 🎨 **월별 테마 색상**: 각 월마다 고유한 색상 테마 적용
+- 🔥 **활동 표시**: "6시 이후 하려는 일"이 있는 날 불 이모지 표시
+- 📝 **일지 요약**: TF-IDF 알고리즘 기반 자동 요약 기능
+- 📱 **반응형 디자인**: 모바일부터 데스크톱까지 최적화된 UI
+- 🎯 **미니 캘린더**: 빠른 날짜 이동을 위한 사이드 캘린더
+
+## 🚀 시작하기
+
+### 레포지토리 클론
+
+일지 데이터는 Git Submodule로 관리됩니다. 클론 시 submodule을 포함해야 합니다:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Submodule 포함하여 클론
+git clone --recurse-submodules https://github.com/toy-project-kyungsle/work_calender.git
+
+# 또는 이미 클론한 경우
+git submodule update --init --recursive
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 개발 환경 실행
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
 
-## Learn More
+### 프로덕션 빌드
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 테스트 실행
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm test          # watch 모드
+npm run test:run  # 단일 실행
+```
 
-## Deploy on Vercel
+## 📁 일지 파일 형식
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`data/` 폴더에 다음 형식의 마크다운 파일을 추가하세요:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```markdown
+# 2026-01-25 일지
+
+## 루틴
+
+- [x] 기상 6:30
+- [x] 운동 30분
+
+# 1. 9 to 6 할 일
+
+- 프로젝트 기획안 검토
+- 팀 미팅 참석
+
+# 2. 6시 이후 하려는 일
+
+- 사이드 프로젝트 개발
+- 블로그 포스팅
+
+# 3. 노트
+
+오늘의 중요한 메모
+
+# 4. 회고
+
+오늘 하루 회고 내용
+```
+
+### 일지 데이터 수정
+
+일지 데이터는 별도 레포지토리([growth_public_data_2](https://github.com/toy-project-kyungsle/growth_public_data_2))에서 관리됩니다:
+
+```bash
+# data 서브모듈로 이동
+cd data
+
+# 일지 파일 추가/수정
+# 예: calender/2026/01/2026-01-25.md
+
+# 변경사항 커밋 (growth_public_data_2 레포지토리)
+git add calender/2026/01/2026-01-25.md
+git commit -m "feat: add journal for 2026-01-25"
+git push origin main
+
+# 메인 프로젝트로 돌아가서 submodule 업데이트 반영
+cd ..
+git add data
+git commit -m "chore: update data submodule"
+git push origin main
+```
+
+### 최신 일지 데이터 가져오기
+
+```bash
+# Submodule을 최신 커밋으로 업데이트
+git submodule update --remote data
+
+# 변경사항 반영
+git add data
+git commit -m "chore: update data submodule to latest"
+git push origin main
+```
+
+## 🛠 기술 스택
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Testing**: [Vitest](https://vitest.dev/) + Testing Library
+
+## 📦 프로젝트 구조
+
+```
+work_calender/
+├── src/
+│   ├── app/              # Next.js App Router
+│   ├── components/       # React 컴포넌트
+│   │   ├── calendar/    # 캘린더 관련 컴포넌트
+│   │   ├── journal/     # 일지 관련 컴포넌트
+│   │   └── ui/          # shadcn/ui 컴포넌트
+│   └── lib/             # 유틸리티 & 로직
+│       ├── dateUtils.ts # 날짜 관련 함수
+│       ├── parser.ts    # 마크다운 파서
+│       ├── summarizer.ts # TF-IDF 요약
+│       └── journals.ts  # 일지 로더
+├── data/                # 일지 파일 저장소
+└── public/              # 정적 파일
+```
+
+## 🎨 월별 테마 색상
+
+각 월마다 고유한 색상 팔레트가 적용됩니다:
+
+- 1월: Rose Red
+- 2월: Coral Orange
+- 3월: Mint Green
+- 4월: Sky Blue
+- 5월: Lavender Purple
+- 6월: Peach
+- 7월: Teal
+- 8월: Gold
+- 9월: Sage Green
+- 10월: Burgundy
+- 11월: Navy Blue
+- 12월: Forest Green
+
+## 🌐 배포
+
+GitHub Pages에 자동 배포됩니다:
+
+**Live Demo**: [https://toy-project-kyungsle.github.io/work_calender/](https://toy-project-kyungsle.github.io/work_calender/)
+
+main 브랜치에 푸시하면 GitHub Actions를 통해 자동으로 빌드 및 배포됩니다.
+
+## 📝 라이선스
+
+MIT License
+
+---
+
+Built with ❤️ using Next.js and TypeScript
