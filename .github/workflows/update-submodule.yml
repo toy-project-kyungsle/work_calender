@@ -35,7 +35,7 @@ jobs:
 
       - name: Update submodule to latest
         run: |
-          git submodule update --remote data
+          git submodule update --remote data/calender
           echo "📦 Submodule updated to latest commit"
 
       - name: Check for changes
@@ -54,7 +54,7 @@ jobs:
         id: commit
         if: steps.check_changes.outputs.changed == 'true'
         run: |
-          git add data
+          git add data/calender
           git commit -m "chore: auto-update data submodule to latest
 
           Updated by scheduled workflow at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"

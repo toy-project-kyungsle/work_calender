@@ -1,3 +1,6 @@
-[submodule "data"]
-	path = data
-	url = https://github.com/toy-project-kyungsle/growth_public_data_2.git
+[submodule "calender"]
+	path = data/calender
+	url = https://github.com/toy-project-kyungsle/growth_calendar_data.git
+[submodule "data/calender"]
+	path = data/calender
+	url = https://github.com/toy-project-kyungsle/growth_calendar_data.git

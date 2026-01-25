@@ -81,13 +81,13 @@ npm run test:run  # 단일 실행
 
 ### 일지 데이터 수정
 
-일지 데이터는 별도 레포지토리([growth_public_data_2](https://github.com/toy-project-kyungsle/growth_public_data_2))에서 관리됩니다.
+일지 데이터는 별도 레포지토리([growth_calendar_data](https://github.com/toy-project-kyungsle/growth_calendar_data))에서 관리됩니다.
 
 #### 자동 배포 (권장)
 
 ```bash
-# growth_public_data_2 레포에서 직접 작업
-cd ~/growth_public_data_2
+# growth_calendar_data 레포에서 직접 작업
+cd ~/growth_calendar_data
 
 # 일지 파일 추가/수정
 # 예: calender/2026/01/2026-01-26.md

@@ -6,7 +6,7 @@ import { DATA_DIR } from "@/lib/constants";
 import type { SerializedJournalEntry } from "@/types/journal";
 import { serializeJournal } from "@/types/journal";
 
-// data/calendar/년도/월/*.md 구조로 파일 읽기
+// data/calender/년도/월/*.md 구조로 파일 읽기
 export async function getJournals(): Promise<SerializedJournalEntry[]> {
   const dataDir = path.join(process.cwd(), DATA_DIR);
   const journals: SerializedJournalEntry[] = [];
