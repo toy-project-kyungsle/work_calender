@@ -35,7 +35,7 @@ jobs:
 
       - name: Update submodule to latest
         run: |
-          git submodule update --remote --merge data
+          git submodule update --remote data
           echo "📦 Submodule updated to latest commit"
 
       - name: Check for changes
