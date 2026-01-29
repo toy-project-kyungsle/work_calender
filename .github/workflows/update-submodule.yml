@@ -2,8 +2,8 @@ name: Update Submodule and Deploy
 
 on:
   schedule:
-    # 매 6시간마다 실행 (UTC 0, 6, 12, 18시 = KST 9, 15, 21, 3시)
-    - cron: '0 */6 * * *'
+    # 매일 오전 8시 52분 KST (23시 52분 UTC)
+    - cron: '52 23 * * *'
   workflow_dispatch:  # 수동 트리거 가능
 
 permissions:
