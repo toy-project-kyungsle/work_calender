@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "submodule-update"
   cancel-in-progress: false
 
 jobs:
@@ -25,7 +25,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: main
           submodules: recursive
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Git
@@ -35,8 +37,14 @@ jobs:
 
       - name: Update submodule to latest
         run: |
-          git submodule update --remote data/calender
-          echo "📦 Submodule updated to latest commit"
+          echo "📍 Current submodule commit:"
+          git submodule status data/calender
+
+          echo "🔄 Fetching latest from remote..."
+          git submodule update --init --remote data/calender
+
+          echo "📦 After update:"
+          git submodule status data/calender
 
       - name: Check for changes
         id: check_changes
