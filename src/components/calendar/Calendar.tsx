@@ -87,13 +87,10 @@ export function Calendar({ journals, onSelectDate }: CalendarProps) {
     <div className="w-full" style={calendarStyle}>
       <div className="mx-auto w-full max-w-4xl px-4">
         <div
-          className="border border-[var(--calendar-line)] border-t-2 border-b-2 bg-[var(--calendar-paper)] shadow-[0_30px_60px_rgba(35,30,24,0.12)]"
-          style={{
-            borderTopColor: "var(--calendar-accent)",
-            borderBottomColor: "var(--calendar-accent)",
-          }}
+          className="overflow-hidden rounded-sm border border-[var(--calendar-line)] border-t-2 bg-[var(--calendar-paper)] shadow-[0_20px_50px_rgba(35,30,24,0.10)]"
+          style={{ borderTopColor: "var(--calendar-accent)" }}
         >
-          <div className="px-6 pt-6 pb-4">
+          <div className="px-6 pt-6 pb-5 md:px-8 md:pt-8 md:pb-6">
             <MonthHeader
               year={currentYear}
               month={currentMonth}
@@ -102,12 +99,11 @@ export function Calendar({ journals, onSelectDate }: CalendarProps) {
             />
           </div>
 
-          <div className="px-6 pb-6">
+          <div className="px-6 pb-6 md:px-8 md:pb-8">
             <WeekdayHeader />
             <div className="grid grid-cols-7 gap-px bg-[var(--calendar-line)]">
               {calendarDays.map((date, index) => {
                 const journal = getJournalForDate(date);
-                console.log(`kyungsle`, JSON.stringify(journal));
                 return (
                   <DayCell
                     key={index}
