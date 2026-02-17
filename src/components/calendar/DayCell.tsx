@@ -28,45 +28,44 @@ export function DayCell({
       onClick={onClick}
       disabled={!hasJournal}
       className={cn(
-        "relative min-h-16 p-1.5 text-left transition-colors md:min-h-24 md:p-2",
-        "bg-[var(--calendar-paper)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]",
+        "relative min-h-16 p-1.5 text-left transition-colors md:min-h-24 md:p-2.5",
+        "bg-[var(--calendar-paper)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-[var(--calendar-accent)]",
         isCurrentMonth
           ? "text-[var(--calendar-text)]"
-          : "text-[var(--calendar-muted)] bg-[var(--calendar-paper-muted)]",
-        !hasJournal && "cursor-default opacity-70",
+          : "bg-[var(--calendar-paper-muted)] text-[var(--calendar-muted)]",
+        !hasJournal && "cursor-default opacity-60",
         hasJournal && "cursor-pointer hover:bg-[var(--calendar-paper-muted)]",
-        isToday && "outline outline-1 outline-[var(--calendar-accent)]",
+        isToday &&
+          "ring-1 ring-inset ring-[var(--calendar-accent)]",
       )}
     >
-      {/* 날짜 번호 */}
-      <div className="flex items-center justify-between mb-2">
+      <div className="mb-1 flex items-center justify-between">
         <span
           className={cn(
             "font-display text-lg leading-none",
             !isCurrentMonth && "text-[var(--calendar-muted)]",
-            isSunday && isCurrentMonth && "text-[var(--calendar-accent)]",
-            isSaturday && isCurrentMonth && "text-[var(--calendar-accent)]",
+            (isSunday || isSaturday) &&
+              isCurrentMonth &&
+              "text-[var(--calendar-accent)]",
           )}
         >
           {date.getDate()}
         </span>
-        {/* 6시 이후 활동 이모지 */}
         {hasGrowthContent && (
-          <span className="text-[9px] font-semibold tracking-[0.2em] text-[var(--calendar-accent)]">
-            🕧🔥
+          <span className="text-[8px] leading-none" aria-label="After-hours activity">
+            🔥
           </span>
         )}
       </div>
 
-      {/* 요약 텍스트 */}
       {summary && (
-        <p className="text-[10px] leading-4 text-[var(--calendar-muted)] line-clamp-3">
+        <p className="hidden text-[10px] leading-relaxed text-[var(--calendar-muted)] line-clamp-3 md:block">
           {summary}
         </p>
       )}
 
       {hasJournal && !summary && (
-        <span className="absolute bottom-2 right-2 h-1.5 w-1.5 rounded-full bg-[var(--calendar-accent)] opacity-80" />
+        <span className="absolute bottom-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-[var(--calendar-accent)] opacity-70" />
       )}
     </button>
   );
