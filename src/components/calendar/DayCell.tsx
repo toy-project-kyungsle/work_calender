@@ -32,7 +32,7 @@ export function DayCell({
     isCurrentMonth
       ? "text-[var(--calendar-text)]"
       : "bg-[var(--calendar-paper-muted)] text-[var(--calendar-muted)]",
-    isSelected && hasJournal && "bg-[var(--calendar-paper-muted)]",
+    isSelected && hasJournal && "ring-2 ring-inset ring-[var(--calendar-accent)]",
   );
 
   const dateNumberClasses = cn(
