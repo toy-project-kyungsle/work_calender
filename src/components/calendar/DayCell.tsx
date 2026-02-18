@@ -105,7 +105,7 @@ export function DayCell({
 
   return (
     <div
-      className={cn(baseClasses, "opacity-60")}
+      className={cn(baseClasses)}
       aria-hidden={!isCurrentMonth}
     >
       {innerContent}

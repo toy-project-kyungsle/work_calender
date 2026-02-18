@@ -1,3 +1,5 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 interface MonthHeaderProps {
   year: number;
   month: number;
@@ -67,14 +69,13 @@ export function MonthHeader({
         )}
       </div>
 
-      <div className="flex items-center gap-1.5 pb-1">
-        {/* TODAY 버튼: 현재 월이 아닐 때만 표시 */}
+      <div className="flex items-center gap-2 pb-1">
         {!isCurrentMonth && onToday && (
           <button
             type="button"
             onClick={onToday}
             aria-label="오늘로 이동"
-            className="flex h-11 items-center justify-center px-3 border border-[var(--calendar-accent)] text-[var(--calendar-accent)] text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[var(--calendar-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]"
+            className="flex h-9 items-center justify-center rounded-full px-4 text-[10px] font-bold tracking-[0.15em] text-[var(--calendar-accent)] transition-colors hover:bg-[var(--calendar-paper-muted)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]"
           >
             TODAY
           </button>
@@ -83,17 +84,17 @@ export function MonthHeader({
           type="button"
           onClick={onPrev}
           aria-label="이전 달"
-          className="flex h-11 w-11 items-center justify-center border border-[var(--calendar-line)] text-[var(--calendar-text)] text-xs font-semibold transition-colors hover:bg-[var(--calendar-paper-muted)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--calendar-muted)] transition-colors hover:bg-[var(--calendar-paper-muted)] hover:text-[var(--calendar-text)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]"
         >
-          &lt;
+          <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           type="button"
           onClick={onNext}
           aria-label="다음 달"
-          className="flex h-11 w-11 items-center justify-center border border-[var(--calendar-line)] text-[var(--calendar-text)] text-xs font-semibold transition-colors hover:bg-[var(--calendar-paper-muted)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--calendar-muted)] transition-colors hover:bg-[var(--calendar-paper-muted)] hover:text-[var(--calendar-text)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--calendar-accent)]"
         >
-          &gt;
+          <ChevronRight className="h-5 w-5" />
         </button>
       </div>
     </div>
