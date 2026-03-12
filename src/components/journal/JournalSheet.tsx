@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import type { JournalEntry } from "@/types/journal";
 import { SECTION_NAMES } from "@/lib/constants";
+import { MarkdownContent } from "./MarkdownContent";
 
 interface JournalSheetProps {
   journal: JournalEntry | null;
@@ -51,8 +52,8 @@ function JournalSection({
           {title}
         </h3>
       </div>
-      <div className="mt-3 text-sm leading-6 text-[var(--calendar-text)] whitespace-pre-wrap">
-        {content}
+      <div className="mt-3 text-sm leading-6 text-[var(--calendar-text)]">
+        <MarkdownContent content={content} />
       </div>
     </section>
   );
